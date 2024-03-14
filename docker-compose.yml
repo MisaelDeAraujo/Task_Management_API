@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgresql-container
+    environment:
+      POSTGRES_DB: taskmanagementdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+    ports:
+      - "5432:5432"
+
+  taskmanagement:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: taskmanagement-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres

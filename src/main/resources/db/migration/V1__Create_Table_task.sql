@@ -1,0 +1,7 @@
+CREATE TABLE if not exists task(
+id SERIAL PRIMARY KEY NOT NULL,
+title VARCHAR(40) NOT NULL,
+description VARCHAR(255) NOT NULL,
+creation_date TIMESTAMP NOT NULL,
+status VARCHAR(4) NOT NULL
+)

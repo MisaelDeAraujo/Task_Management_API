@@ -31,7 +31,7 @@ public class Task {
 	private Integer id;
 	@Column(length = 40, nullable = false)
 	private String title;
-	@Column(nullable = false)
+	@Column(columnDefinition = "TEXT")
 	private String description;
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	private LocalDateTime creationDate;

@@ -1,21 +1,18 @@
 package com.misael.task.management.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import com.misael.task.management.entities.Task;
 import com.misael.task.management.entities.dtos.TaskDto;
 import com.misael.task.management.services.TaskService;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+
 @AllArgsConstructor
 @RestController
 @RequestMapping(value = "/tasks")
@@ -23,28 +20,33 @@ public class TaskController {
 
 	private TaskService taskService;
 	
-	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Task> create(@RequestBody @Valid TaskDto taskDto){
-		return ResponseEntity.status(HttpStatus.CREATED).body(taskService.saveNewTask(taskDto));
+	@PostMapping
+	public ResponseEntity<TaskDto> createNewTask(@RequestBody @Valid TaskDto taskDto){
+		taskService.saveNewTask(taskDto);
+		return ResponseEntity.status(HttpStatus.CREATED).body(taskDto);
 	}
-	@RequestMapping(method = RequestMethod.GET)
+	@GetMapping
 	public ResponseEntity<List<Task>> viewAllTasks(){
-		return ResponseEntity.ok().body(taskService.viewAllTasks());
+		List<Task> tasks = taskService.viewAllTasks();
+		return ResponseEntity.ok().body(tasks);
 	}
 	
-	@RequestMapping(value = "/{id}",method = RequestMethod.PUT)
-	public ResponseEntity<Object> updateTask(@PathVariable(value="id") Integer id, @RequestBody @Valid TaskDto taskDto){
-		return ResponseEntity.status(HttpStatus.OK).body(taskService.updateTaskExisting(id, taskDto));
+	@PutMapping("/{id}")
+	public ResponseEntity<TaskDto> updateTask(@PathVariable(value="id") Integer id, @RequestBody @Valid TaskDto taskDto){
+		taskService.updateTaskExisting(id, taskDto);
+		return ResponseEntity.status(HttpStatus.OK).body(taskDto);
 		
 	}
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Object> viewByTaskId(@PathVariable Integer id){
-		return ResponseEntity.status(HttpStatus.OK).body(id);
+	@GetMapping("/{id}")
+	public ResponseEntity<Task> viewByTaskId(@PathVariable Integer id){
+		Optional<Task> task = taskService.findById(id);	
+		return ResponseEntity.status(HttpStatus.OK).body(task.get());
 	}
 
-	@RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Object> deleteTask(@PathVariable(value = "id") Integer id){
-		return ResponseEntity.status(HttpStatus.OK).body(id);
+		taskService.delete(id);
+		return ResponseEntity.status(HttpStatus.OK).build();
 		
 	}
 	

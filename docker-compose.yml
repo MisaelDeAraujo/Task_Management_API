@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  postgres:
+  postgres-task-api:
     image: postgres:latest
     container_name: postgresql-container
     environment:

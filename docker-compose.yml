@@ -3,7 +3,7 @@ version: '3'
 services:
   postgres:
     image: postgres:latest
-    container_name: postgresql-container
+    container_name: postgresql-container-task-api
     environment:
       POSTGRES_DB: taskmanagementdb
       POSTGRES_USER: postgres

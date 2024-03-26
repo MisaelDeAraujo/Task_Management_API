@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.misael.task.management.entities.Task;
@@ -11,16 +12,14 @@ import com.misael.task.management.entities.dtos.TaskDto;
 import com.misael.task.management.exceptions.TaskNotFoundException;
 import com.misael.task.management.repositories.TaskRepository;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 
-@AllArgsConstructor
 @Service
 @Builder
 public class TaskService {
 
+	@Autowired
 	private TaskRepository taskRepository;
-
 
 	public Task saveNewTask(TaskDto taskDto) {
 		Task task = Task.builder().title(taskDto.title()).description(taskDto.description())
